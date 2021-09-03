@@ -8,7 +8,7 @@
 
 |   #   | File            | Description                                        |
 | :---: | --------------- | -------------------------------------------------- |
-|   1   | <a href="https://github.com/aayushbhurtel/2143-OOP-Aayush/blob/main/Assignments/03-A04/main.cpp">Main.cpp</a href>         | Main c++ file with the commented code      |
+|   1   | <a href="https://github.com/aayushbhurtel/2143-OOP-Aayush/blob/main/Assignments/03-A04/main.cpp">Main.cpp        | Main c++ file with the commented code      |
 
 
 ### Instructions
