@@ -77,9 +77,20 @@ class MyVector {
     // overloaded constructor
         MyVector(int* A, int size){
             head = NULL;
-            for(int i=0; i<size; i++){
-                pushFront(A[i]);
+            for(int i=1; i<size+1; i++){
+                pushFront(A[size - i]);
             }
+
+            // sort linked list
+           for(int i = 0; i< size-1 ; i++ ){
+               for(int j = 0 ; j < size-(i-1); j++){
+                   if(A[j]>A[j+1]){ // if current node is greater then next node
+                        int temp = A[j];
+                        A[j] = A[j+1];
+                        A[j+1] = temp;
+                   }
+               }
+           }
         }
     // overloaded constructor
 
@@ -203,10 +214,34 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-        // void inOrderPush(int val){
+        void inOrderPush(int val){
 
-        // }
+            Node* tempp = head->next;
+            Node* curr = head;
+             // check if the head node is greater then the val
+                if (head->data > val){
+                    // prepend the val in linked list
+                    Node* n = new Node(val);
+                    n->next = head;
+                    head = n;
+                }
+            while(curr != NULL){
+               
+                if (tempp->data > val){
+                    // insert new node before temp node
+                    Node* newNode = new Node(val);
+                    newNode-> next = tempp;
+                    curr -> next = newNode;
+                     return;
+                }
+                curr = curr -> next;
+                tempp = tempp -> next;
+                
+            }
+
+        }
         
+    
     /**
      * Public/Private/Protected : function_name
      * 
@@ -330,4 +365,11 @@ v1.print();
 int A[] = {11,25,33,47,51};
 MyVector v2(A,5);
 v2.print();
+// [11, 25, 33, 47, 51]
+
+v2.pushFront(9);
+v2.inOrderPush(27);
+v2.pushRear(63);
+v2.print();
+// [9, 11, 25, 27, 33, 47, 51, 63]
 }
