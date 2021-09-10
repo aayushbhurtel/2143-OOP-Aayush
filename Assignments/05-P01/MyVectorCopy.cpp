@@ -11,7 +11,8 @@
 *        describe program here thoroughly 
 * 
 *  Usage:
-*        how to use the program if necessary
+*       - compile this cpp file
+*       - './MyVector' in terminal
 * 
 *  Files:            (list of all source files used in this program)
 *****************************************************************************/
@@ -48,22 +49,25 @@ struct Node{
  * MyVector
  * 
  * Description:
- *      Description of your class and what it does
+ *      This class creates a linkedlist with various push and pull methods
  * 
  * Public Methods:
- *      - A list of 
- *      - each public method
- *      - with return types
+ *      -  void pushFront(int val)
+ *      -  void pushFront(MyVector& V2)
+ *      -  void pushRear(int val)
+ *      -  void pushRear(MyVector V2)
+ *      -  void inOrderPush(int val)
+ *      -  int popFront() 
+ *      -  int popRear() 
+ *      -  int popAt(int loc) 
+ *      -  int find(int val) 
+ *      -  void print()
  * 
  * Private Methods:
- *      - A list of 
- *      - each private method
- *      - with return types
+ *      
  * 
  * Usage: 
- * 
- *      - examples of how
- *      - to use your class 
+ *  
  *      
  */
 class MyVector {
@@ -71,21 +75,46 @@ class MyVector {
         Node* head;
 
     public:
-    // constructor 
+    /**
+     * Public : MyVector
+     * 
+     * Description:
+     *      default constructor that initializes head as NULL
+     * 
+     * Params:
+     *      none
+     * 
+     * Returns:
+     *      
+     */ 
         MyVector(){
             head = NULL;
         }
-    // overloaded constructor [needs modification]
+
+    /**
+     * Public : MyVector
+     * 
+     * Description:
+     *      overloaded constructor that populates the linkedlist from an Array A of size "size"
+     * 
+     * Params:
+     *      - int* A
+     *      - int size
+     *
+     * Returns:
+     *      none
+     */ 
         MyVector(int* A, int size){
             head = NULL;
             for(int i=1; i<size+1; i++){
                 pushFront(A[size - i]);
             }
 
-            // sort linked list
+            // bubble sort
            for(int i = 0; i< size-1 ; i++ ){
                for(int j = 0 ; j < size-(i-1); j++){
-                   if(A[j]>A[j+1]){ // if current node is greater then next node
+                   if(A[j]>A[j+1]){
+             // if current node is greater then next node
                         int temp = A[j];
                         A[j] = A[j+1];
                         A[j+1] = temp;
@@ -94,8 +123,21 @@ class MyVector {
            }
         }
 
-    // overloaded contructor for external file
+    /**
+     * Public : MyVector
+     * 
+     * Description:
+     *      overloaded constructor that opens a file and populates LinkedList with the contains of a file, one line at a time
+     * 
+     * Params:
+     *      - string FileName
+     * 
+     * Returns:
+     *     none
+     *      
+     */ 
         MyVector(string FileName){
+          head = NULL;
           int a;
           ifstream fin;
           fin.open(FileName);
@@ -106,25 +148,53 @@ class MyVector {
           
         }
     
-    // copy constructor
+    /**
+     * Public : MyVector
+     * 
+     * Description:
+     *      copy constructor to deep copy the contains of the class object
+     * 
+     * Params:
+     *      - const MyVector& other
+     * 
+     * Returns:
+     *     none
+     *      
+     */ 
         MyVector(const MyVector& other){
             
-           head = other.head;
+            this->head = new Node(*other.head);
+            
            
         }
+
+        /**
+     * Public : ~MyVector
+     * 
+     * Description:
+     *      destrctor to newly allocated head node
+     * 
+     * Params:
+     *      none
+     * 
+     * Returns:
+     *     none
+     *      
+     */ 
+        ~MyVector(){delete head;}
     
 
     /**
-     * Public/Private/Protected : pushFront
+     * Public : pushFront
      * 
      * Description:
-     *      Describe the functions purpose
+     *      This adds the new Node to the front of currently existing linkedList. if the list is empty then it assigns a head
      * 
      * Params:
-     *      int :   integers 
+     *      - int val 
      * 
      * Returns:
-     *      - void
+     *      none
      */
         void pushFront(int val){
             Node* newNode = new Node(val);
@@ -137,18 +207,19 @@ class MyVector {
         }
 
     /**
-     * Public/Private/Protected : pushFront
+     * Public : pushFront
      * 
      * Description:
-     *      Describe the functions purpose
+     *     This method takes in MyVetor object and add the list in the front of existing LinkedList.
      * 
      * Params:
-     *      MyVector    :   object
+     *      MyVector& V2
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      none
      */
          void pushFront(MyVector& V2){
+           cout << "V2 head: " << V2.head->data<< endl;
            Node* h = V2.head;
            Node* temp = h->next;
            Node* curr = h;
@@ -168,19 +239,16 @@ class MyVector {
         }
 
     /**
-     * Public/Private/Protected : function_name
+     * Public : pushRear
      * 
      * Description:
-     *      Describe the functions purpose
+     *     This method adds the new Node at the end of existing linedlist
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      - int val
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      none
      */
         void pushRear(int val){
             Node* newNode = new Node(val);
@@ -197,73 +265,55 @@ class MyVector {
         }
         
     /**
-     * Public/Private/Protected : function_name
+     * Public : pushRear
      * 
      * Description:
-     *      Describe the functions purpose
+     *     This method takes in MyVetor object and add the list at the end of existing LinkedList.
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      - MyVector V2
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      none
      */
         void pushRear(MyVector V2){
-            // cout << this->head->data << endl; //25
-            // cout << V2.head->data << endl; // 9
+            
             Node* temp = V2.head;
             while(temp != NULL){
                 pushRear(temp->data);
                 temp = temp->next;
             }
-            // Node* temp = head;
-            // while(temp!=NULL){
-            //     temp=temp->next;
-            // }
-            // // temp is the last element
-            // Node* curr = V2.head;
-            // while(curr!=NULL){
-            //     pushRear(curr->data);
-            //     curr = curr->next;
-            // }
+            
             
         }
     /**
-     * Public/Private/Protected : function_name
+     * Public : pushAt
      * 
      * Description:
-     *      Describe the functions purpose
+     *      This method addes a new node at the specific location
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
-     * 
+     *      - int loc
+     *      - int val
+     *
      * Returns:
-     *      - what does this function return (including the type)?
+     *      none
      */
         // void pushAt(int loc, int val){
 
         // }
 
     /**
-     * Public/Private/Protected : function_name
+     * Public : inOrderPush
      * 
      * Description:
-     *      Describe the functions purpose
+     *      This method will adds the new node in existing LinkedList at the appropriate position
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      - int val
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      none
      */
         void inOrderPush(int val){
 
@@ -294,19 +344,16 @@ class MyVector {
         
     
     /**
-     * Public/Private/Protected : function_name
+     * Public : popFront
      * 
      * Description:
-     *      Describe the functions purpose
+     *      This will remove an node from a front of linkedlist
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      none
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      - integer
      */
         int popFront(){
             Node* temp = head;
@@ -317,19 +364,16 @@ class MyVector {
           }
         
     /**
-     * Public/Private/Protected : function_name
+     * Public : popRear
      * 
      * Description:
-     *      Describe the functions purpose
+     *      This will remove an node from a rear of linkedlist
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      none
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      none
      */
         int popRear(){
             Node* temp; Node* current;
@@ -345,19 +389,16 @@ class MyVector {
         }
 
     /**
-     * Public/Private/Protected : function_name
+     * Public : popAt
      * 
      * Description:
-     *      Describe the functions purpose
+     *      This method removes a node from a specific location
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      - int loc
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      - int
      */
         int popAt(int loc){
             Node* curr = head;
@@ -372,19 +413,16 @@ class MyVector {
         }
         
     /**
-     * Public/Private/Protected : function_name
+     * Public : find
      * 
      * Description:
-     *      Describe the functions purpose
+     *      This method searches the node from specific data(value) and returns that value
      * 
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      - int val
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      - int
      */
         int find(int val){
             int count = 0;
@@ -403,19 +441,16 @@ class MyVector {
         }
 
     /**
-     * Public/Private/Protected : function_name
+     * Public : print
      * 
      * Description:
-     *      Describe the functions purpose
-     * 
+     *      - this method prints the LinkedList
+     *
      * Params:
-     *      - list params
-     *      - one per line
-     *      - with return type
-     *      - and one line description
+     *      
      * 
      * Returns:
-     *      - what does this function return (including the type)?
+     *      None
      */
         void print(){
             Node* temp = head;
@@ -434,7 +469,7 @@ class MyVector {
 };
 
 int main(){
-    // main driver class
+// main driver class
 int x = 0;
 
 MyVector v1;
@@ -501,6 +536,7 @@ v3.print();
 // //[9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
 
 MyVector v4("input.dat");
+v4.print();
 v4.pushRear(v3);
 v4.print();
 // // [56, 61, 97, 66, 83, 25, 26, 11, 53, 49, 62, 18, 10, 18, 14, 3, 4, 23, 18, 24, 26, 27, 54, 14, 12, 45, 65, 98, 56, 97, 15, 84, 98, 9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
