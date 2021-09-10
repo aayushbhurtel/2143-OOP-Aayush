@@ -16,6 +16,7 @@
 *  Files:            (list of all source files used in this program)
 *****************************************************************************/
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 /**
@@ -92,10 +93,24 @@ class MyVector {
                }
            }
         }
+
+    // overloaded contructor for external file
+        MyVector(string FileName){
+          int a;
+          ifstream fin;
+          fin.open(FileName);
+          while(!fin.eof()){
+                  fin >> a;
+                  pushRear(a);
+          }
+          
+        }
     
     // copy constructor
-        MyVector(MyVector &other){
-            head = other.head;
+        MyVector(const MyVector& other){
+            
+           head = other.head;
+           
         }
     
 
@@ -134,7 +149,22 @@ class MyVector {
      *      - what does this function return (including the type)?
      */
          void pushFront(MyVector& V2){
-           
+           Node* h = V2.head;
+           Node* temp = h->next;
+           Node* curr = h;
+           while(curr != NULL){
+               if(h->next == nullptr){
+                   return;
+               }
+                while(temp->next != NULL){
+                temp = temp->next;
+                curr = curr-> next;
+            }
+                pushFront(curr->data); // pushFront last element
+                curr->next = nullptr;
+                curr = h;
+                temp = h->next;
+           }
         }
 
     /**
@@ -162,7 +192,7 @@ class MyVector {
                     temp = temp->next;
                 }
                 temp->next = newNode;
-                return;
+                //return;
             }
         }
         
@@ -186,9 +216,20 @@ class MyVector {
             // cout << V2.head->data << endl; // 9
             Node* temp = V2.head;
             while(temp != NULL){
-                this->pushRear(temp->data);
+                pushRear(temp->data);
                 temp = temp->next;
             }
+            // Node* temp = head;
+            // while(temp!=NULL){
+            //     temp=temp->next;
+            // }
+            // // temp is the last element
+            // Node* curr = V2.head;
+            // while(curr!=NULL){
+            //     pushRear(curr->data);
+            //     curr = curr->next;
+            // }
+            
         }
     /**
      * Public/Private/Protected : function_name
@@ -459,8 +500,8 @@ v3.pushFront(v2);
 v3.print();
 // //[9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
 
-// MyVector v4("input.dat");
-// v4.pushRear(v3);
-// v4.print();
+MyVector v4("input.dat");
+v4.pushRear(v3);
+v4.print();
 // // [56, 61, 97, 66, 83, 25, 26, 11, 53, 49, 62, 18, 10, 18, 14, 3, 4, 23, 18, 24, 26, 27, 54, 14, 12, 45, 65, 98, 56, 97, 15, 84, 98, 9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
  }
