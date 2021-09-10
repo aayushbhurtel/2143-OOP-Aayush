@@ -94,9 +94,10 @@ class MyVector {
         }
     
     // copy constructor
-        MyVector(const MyVector& other){
-            
+        MyVector(MyVector &other){
+            head = other.head;
         }
+    
 
     /**
      * Public/Private/Protected : pushFront
@@ -180,12 +181,13 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-        void pushRear(MyVector& V2){
+        void pushRear(MyVector V2){
             // cout << this->head->data << endl; //25
             // cout << V2.head->data << endl; // 9
-            while(V2.head != NULL){
-                this->pushRear(V2.head->data);
-                V2.head = V2.head->next;
+            Node* temp = V2.head;
+            while(temp != NULL){
+                this->pushRear(temp->data);
+                temp = temp->next;
             }
         }
     /**
@@ -317,16 +319,15 @@ class MyVector {
      *      - what does this function return (including the type)?
      */
         int popAt(int loc){
-            int count = 0;
-            Node* current = head;
+            Node* curr = head;
             Node* temp = head->next;
-            while(count == loc){
-                current = current->next;
-                temp=temp->next;
-                count++;
+            for(int i=1; i<loc; i++){
+                curr = curr->next;
+                temp = temp->next;
             }
-
-            
+            curr->next = curr->next->next;
+            temp->next = NULL;
+            return temp->data;
         }
         
     /**
@@ -344,9 +345,21 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-        // int find(int val){
-
-        // }
+        int find(int val){
+            int count = 0;
+            bool exist = false;
+            Node* temp = head;
+            while(temp != NULL){
+                // check if val exist
+                if(temp->data == val){
+                    return count;
+                } else {
+                    temp = temp -> next;
+                    count++;
+                }
+            }
+            return -1;
+        }
 
     /**
      * Public/Private/Protected : function_name
@@ -430,20 +443,20 @@ v2.print();
 cout<<x<<endl;
 // 27
 
-// x = v2.find(51);
-// cout<<x<<endl;
+x = v2.find(51);
+cout<<x<<endl;
 // // 5
 
-// x = v2.find(99);
-// cout<<x<<endl;
+x = v2.find(99);
+cout<<x<<endl;
 // // -1
 
-// MyVector v3(v1);
-// v3.print();
+MyVector v3(v1);
+v3.print();
 // // [18, 20, 25, 9, 11, 25, 27, 33]
 
-// v3.pushFront(v2);
-// v3.print();
+v3.pushFront(v2);
+v3.print();
 // //[9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
 
 // MyVector v4("input.dat");
