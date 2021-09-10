@@ -74,7 +74,7 @@ class MyVector {
         MyVector(){
             head = NULL;
         }
-    // overloaded constructor
+    // overloaded constructor [needs modification]
         MyVector(int* A, int size){
             head = NULL;
             for(int i=1; i<size+1; i++){
@@ -92,7 +92,11 @@ class MyVector {
                }
            }
         }
-    // overloaded constructor
+    
+    // copy constructor
+        MyVector(const MyVector& other){
+            
+        }
 
     /**
      * Public/Private/Protected : pushFront
@@ -128,7 +132,7 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-         void pushFront(MyVector V2){
+         void pushFront(MyVector& V2){
            
         }
 
@@ -176,10 +180,14 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-        // void pushRear(MyVector V2){
-
-        // }
-
+        void pushRear(MyVector& V2){
+            // cout << this->head->data << endl; //25
+            // cout << V2.head->data << endl; // 9
+            while(V2.head != NULL){
+                this->pushRear(V2.head->data);
+                V2.head = V2.head->next;
+            }
+        }
     /**
      * Public/Private/Protected : function_name
      * 
@@ -257,9 +265,13 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-        // int popFront(){
-          
-        // }
+        int popFront(){
+            Node* temp = head;
+            head = head->next;
+            temp->next = NULL;
+            return temp->data;
+            
+          }
         
     /**
      * Public/Private/Protected : function_name
@@ -276,9 +288,18 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-        // int popRear(){
-
-        // }
+        int popRear(){
+            Node* temp; Node* current;
+            temp = head ->next;
+            current = head;
+            
+            while(temp->next != NULL){
+                temp = temp -> next;
+                current = current -> next;
+            }
+            current->next = nullptr;
+            return temp->data;
+        }
 
     /**
      * Public/Private/Protected : function_name
@@ -295,9 +316,18 @@ class MyVector {
      * Returns:
      *      - what does this function return (including the type)?
      */
-        // int popAt(int loc){
+        int popAt(int loc){
+            int count = 0;
+            Node* current = head;
+            Node* temp = head->next;
+            while(count == loc){
+                current = current->next;
+                temp=temp->next;
+                count++;
+            }
 
-        // }
+            
+        }
         
     /**
      * Public/Private/Protected : function_name
@@ -351,6 +381,7 @@ class MyVector {
 
 int main(){
     // main driver class
+int x = 0;
 
 MyVector v1;
 v1.pushFront(18);
@@ -372,4 +403,51 @@ v2.inOrderPush(27);
 v2.pushRear(63);
 v2.print();
 // [9, 11, 25, 27, 33, 47, 51, 63]
-}
+
+v1.pushRear(v2);
+v1.print();
+// [25, 20, 18, 18, 20, 25, 9, 11, 25, 27, 33, 47, 51, 63]
+
+x = v1.popFront();
+x = v1.popFront();
+x = v1.popFront();
+v1.print();
+// [18, 20, 25, 9, 11, 25, 27, 33, 47, 51, 63]
+cout<<x<<endl;
+// 18
+
+x = v1.popRear();
+x = v1.popRear();
+x = v1.popRear();
+v1.print();
+// [18, 20, 25, 9, 11, 25, 27, 33]
+cout<<x<<endl;
+// 47
+
+x = v2.popAt(3);
+v2.print();
+// [9, 11, 25, 33, 47, 51, 63]
+cout<<x<<endl;
+// 27
+
+// x = v2.find(51);
+// cout<<x<<endl;
+// // 5
+
+// x = v2.find(99);
+// cout<<x<<endl;
+// // -1
+
+// MyVector v3(v1);
+// v3.print();
+// // [18, 20, 25, 9, 11, 25, 27, 33]
+
+// v3.pushFront(v2);
+// v3.print();
+// //[9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
+
+// MyVector v4("input.dat");
+// v4.pushRear(v3);
+// v4.print();
+// // [56, 61, 97, 66, 83, 25, 26, 11, 53, 49, 62, 18, 10, 18, 14, 3, 4, 23, 18, 24, 26, 27, 54, 14, 12, 45, 65, 98, 56, 97, 15, 84, 98, 9, 11, 25, 33, 47, 51, 63, 18, 20, 25, 9, 11, 25, 27, 33]
+ }
