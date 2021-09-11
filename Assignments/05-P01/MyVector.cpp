@@ -11,11 +11,16 @@
 *        describe program here thoroughly 
 * 
 *  Usage:
+*       - fork into your system
 *       - compile this cpp file
-*       - './MyVector' in terminal
+*       - type './MyVector' in terminal
 * 
-*  Files:            (list of all source files used in this program)
+*  Files:            
+*       - MyVector.cpp
+*       - output.dat
+*       - input.dat
 *****************************************************************************/
+
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -219,7 +224,6 @@ class MyVector {
      *      none
      */
          void pushFront(MyVector& V2){
-           cout << "V2 head: " << V2.head->data<< endl;
            Node* h = V2.head;
            Node* temp = h->next;
            Node* curr = h;
@@ -299,9 +303,22 @@ class MyVector {
      * Returns:
      *      none
      */
-        // void pushAt(int loc, int val){
-
-        // }
+        void pushAt(int loc, int val){
+            
+            Node* curr = head->next;
+            Node* temp = head;
+            int count=1;
+            while(count != loc){
+                curr = curr -> next;
+                temp = temp->next;
+                count++;
+            }
+            // when count == loc we exit the loop with temp->next as the position to insert new node
+            
+            Node* n = new Node(val);
+            temp->next = n;
+            n->next = curr;
+        }
 
     /**
      * Public : inOrderPush
@@ -453,16 +470,24 @@ class MyVector {
      *      None
      */
         void print(){
+            // ofstream to write output to a file
+            ofstream fileout;
+            fileout.open("output.dat",ofstream::app);
+
             Node* temp = head;
             cout << "[";
+            fileout << "[";
             while(temp){
                 cout<<temp->data;
+                fileout<<temp->data;
                 if(temp->next){
                     cout << ", ";
+                    fileout << ", ";
                 }
                 temp = temp->next;
             }
             cout<< "]" << endl;
+            fileout<< "]" << endl;
         }
 
 
@@ -471,6 +496,9 @@ class MyVector {
 int main(){
 // main driver class
 int x = 0;
+// ofstream to write output to a file.
+ofstream fileOut;
+fileOut.open("output.dat",ofstream::app);
 
 MyVector v1;
 v1.pushFront(18);
@@ -503,6 +531,7 @@ x = v1.popFront();
 v1.print();
 // [18, 20, 25, 9, 11, 25, 27, 33, 47, 51, 63]
 cout<<x<<endl;
+fileOut<<x<<endl;
 // 18
 
 x = v1.popRear();
@@ -511,25 +540,33 @@ x = v1.popRear();
 v1.print();
 // [18, 20, 25, 9, 11, 25, 27, 33]
 cout<<x<<endl;
+fileOut<<x<<endl;
 // 47
 
 x = v2.popAt(3);
 v2.print();
 // [9, 11, 25, 33, 47, 51, 63]
 cout<<x<<endl;
+fileOut<<x<<endl;
 // 27
 
 x = v2.find(51);
 cout<<x<<endl;
+fileOut<<x<<endl;
 // // 5
 
 x = v2.find(99);
 cout<<x<<endl;
+fileOut<<x<<endl;
 // // -1
 
 MyVector v3(v1);
 v3.print();
 // // [18, 20, 25, 9, 11, 25, 27, 33]
+
+// v3.pushAt(4,5); 
+// v3.print();
+// // [18, 20, 25, 5, 9, 11, 25, 27, 33]
 
 v3.pushFront(v2);
 v3.print();
