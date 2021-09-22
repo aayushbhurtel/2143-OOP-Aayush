@@ -1,5 +1,6 @@
 //Using code from repl.it create a more robust MyVector class that includes some added functionality.
 #include <iostream>
+#include <iomanip>
  
  using namespace std;
 
@@ -60,7 +61,7 @@
              Node<T>* temp = head;
             cout << "[";
             while(temp){
-                cout<<temp->data;
+               cout << temp->data;
                 if(temp->next){
                     cout << ", ";
                 }
@@ -110,6 +111,35 @@
           return *this;
         }
 
+        // overload - operator to substract one list from another
+         MyVector &operator-(const MyVector& other){
+            Node<T>* tempOther = other.head;
+            Node<T>* tempThis = this->head;
+            while (tempOther != NULL){ // this loop will run until one linked list ends
+              tempThis->data = tempThis->data - tempOther->data;
+              tempThis = tempThis->next;
+              tempOther = tempOther->next;
+            }
+          return *this;
+        }
+
+        // overload / operator to divide each nodes from list A with corrosponding nodes form list B 
+         MyVector &operator/(const MyVector& other){
+            Node<T>* tempOther = other.head;
+            Node<T>* tempThis = this->head;
+            while (tempOther != NULL){ // this loop will run until one linked list ends
+              if(tempOther == 0){
+                cout<<"divide by zero error!"<<endl;
+                exit(0);
+              } 
+
+              tempThis->data = tempThis->data / tempOther->data;
+              tempThis = tempThis->next;
+              tempOther = tempOther->next;
+            }
+          return *this;
+        }
+      
         //overload * operator to Multiply linkedList with constant value
         MyVector& operator*(int val){
           Node<T>* tempThis = this->head;
@@ -134,7 +164,7 @@
 
         
 
-        //overload + operator to add two  
+        // overload << to print objects   
         friend ostream& operator<<(ostream &out, const MyVector& other){
         Node<T>* temp = other.head;
         out << "[" ; 
@@ -166,8 +196,8 @@
 
  int main(){
 
-     MyVector<int> v1;
-     MyVector<int> v2;
+     MyVector<double> v1;
+     MyVector<double> v2;
 
      v1.push_back(8);
      v1.print();
@@ -180,7 +210,7 @@
     // v2 contains: [10,20,30]
 
     // Declare some int array
-    int A[] = {1,2,3,4,5};
+    double A[] = {1,2,3,4,5};
 
     v1.push_back(A,5);
     v1.print();
@@ -189,6 +219,20 @@
     v1 = v1 + v2;
     v1.print();
     // v1 contains: [18,21,32,3,4,5]
+
+    ////////////////////////////////////////
+
+    // v1 = v1 - v2;
+    // cout<< "v1-v2:" << endl;
+    // v1.print();
+
+    // v1 = v1 / v2;
+    // cout<< "v1/v2:" << endl;
+    // v1.print();
+
+
+
+    //////////////////////////////////////
 
      cout<<v1<<endl;
     // would print: [18,21,32,3,4,5] to standard out.
